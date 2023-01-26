@@ -5,13 +5,12 @@ import org.springframework.stereotype.Component
 import org.xavrs.streaming.springboot3.application.controller.model.ItemDTO
 import org.xavrs.streaming.springboot3.domain.getItem.GetItemUseCase
 import org.xavrs.streaming.springboot3.domain.model.ColorCode
-import org.xavrs.streaming.springboot3.domain.model.Item
 import org.xavrs.streaming.springboot3.domain.model.Reference
 
 @Component
-class ItemAdapter (private val getItemUseCase: GetItemUseCase) {
+class ItemWebAdapter (private val getItemUseCase: GetItemUseCase) {
 
-    fun getItemForController(reference: String, colorCode: String): ResponseEntity<ItemDTO?>{
+    fun getItem(reference: String, colorCode: String): ResponseEntity<ItemDTO?>{
         var response: ResponseEntity<ItemDTO?> = ResponseEntity.notFound().build()
         getItemUseCase(
             reference = Reference(reference),
@@ -25,15 +24,6 @@ class ItemAdapter (private val getItemUseCase: GetItemUseCase) {
                 )
             )
         }
-        return response
-    }
-
-    fun getItemForStream(reference: String, colorCode: String): Item?{
-
-        val response = getItemUseCase(
-            reference = Reference(reference),
-            colorCode = ColorCode(colorCode)
-        )
         return response
     }
 }
